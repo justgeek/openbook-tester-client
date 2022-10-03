@@ -5,6 +5,7 @@ import { NextPage } from "next";
 import { VariantType } from "notistack";
 import { clearDB } from "pages/tester/components/query-manager/queries.service";
 import { Dispatch, MouseEventHandler, SetStateAction, useEffect, useRef, useState } from "react";
+import { httpService } from "services/http";
 import "./styles.scss";
 
 export const OPENBOOK_API_KEY_NAME = "openbookAPIKey";
@@ -28,6 +29,11 @@ const SettingsPage: NextPage = () => {
     if (key) {
       localStorage.setItem(OPENBOOK_API_KEY_NAME, key);
       setApiKey(key);
+      // Update service token
+      httpService.OPENBOOK_API_KEY = key;
+      httpService.openBookHeaders = {
+        Authorization: "Bearer " + httpService.OPENBOOK_API_KEY,
+      };
       sendNotification({ msg: "Key saved successfully", variant: "success" });
     }
   };

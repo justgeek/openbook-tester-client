@@ -3,8 +3,8 @@ import { OPENBOOK_API_KEY_NAME } from "pages/settings/index.page";
 
 // Can be extended later to add further functionalities like token handling, intercepting requests, and responses .. etc
 export class HttpService {
-  private OPENBOOK_API_KEY = "";
-  private openBookHeaders = {};
+  public OPENBOOK_API_KEY = "";
+  public openBookHeaders = {};
   private defaultHeaders = { "Content-Type": "application/json" };
 
   constructor() {
