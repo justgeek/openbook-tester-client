@@ -18,7 +18,7 @@ export class HttpService {
 
   public async get<T>(url: string, params?: any) {
     let options: any = { method: "GET", headers: new Headers({ ...this.defaultHeaders }) };
-    if (url.includes(OPENBOOK_API_URL)) {
+    if (url.includes(OPENBOOK_API_URL!)) {
       options = { ...options, headers: new Headers({ ...this.defaultHeaders, ...this.openBookHeaders }) };
     }
     try {
@@ -35,7 +35,7 @@ export class HttpService {
       body: JSON.stringify(payload),
       headers: new Headers({ ...this.defaultHeaders }),
     };
-    if (url.includes(OPENBOOK_API_URL)) {
+    if (url.includes(OPENBOOK_API_URL!)) {
       options = { ...options, headers: new Headers({ ...this.defaultHeaders, ...this.openBookHeaders }) };
     }
     try {
@@ -52,7 +52,7 @@ export class HttpService {
       body: JSON.stringify(payload),
       headers: new Headers({ ...this.defaultHeaders }),
     };
-    if (url.includes(OPENBOOK_API_URL)) {
+    if (url.includes(OPENBOOK_API_URL!)) {
       options = { ...options, headers: new Headers({ ...this.defaultHeaders, ...this.openBookHeaders }) };
     }
     try {
@@ -68,7 +68,7 @@ export class HttpService {
       method: "DELETE",
       headers: new Headers({ ...this.defaultHeaders }),
     };
-    if (url.includes(OPENBOOK_API_URL)) {
+    if (url.includes(OPENBOOK_API_URL!)) {
       options = { ...options, headers: new Headers({ ...this.defaultHeaders, ...this.openBookHeaders }) };
     }
     try {
