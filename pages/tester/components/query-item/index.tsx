@@ -23,11 +23,9 @@ export const QueryItem: FunctionComponent<{ query: Query }> = ({ query }) => {
   const [localQuery, setLocalQuery] = useState(query);
 
   const {
-    state: { activeArtifact },
+    state: { activeArtifact, loadingQueries },
     dispatch,
   } = useArtifactManager()!;
-
-  useEffect(() => {}, []);
 
   useEffect(() => {
     if (activeArtifact) {
