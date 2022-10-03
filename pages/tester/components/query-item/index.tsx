@@ -23,7 +23,7 @@ export const QueryItem: FunctionComponent<{ query: Query }> = ({ query }) => {
   const [localQuery, setLocalQuery] = useState(query);
 
   const {
-    state: { activeArtifact, loadingQueries },
+    state: { activeArtifact },
     dispatch,
   } = useArtifactManager()!;
 
@@ -31,7 +31,6 @@ export const QueryItem: FunctionComponent<{ query: Query }> = ({ query }) => {
 
   useEffect(() => {
     if (activeArtifact) {
-      setLocalQuery({ ...query });
       loadAnswers();
     }
   }, [activeArtifact?.id]);
@@ -50,9 +49,9 @@ export const QueryItem: FunctionComponent<{ query: Query }> = ({ query }) => {
       const queryAnswerResponse = await getOpenbookQueryAnswer(activeArtifact?.id, payload);
       if (queryAnswerResponse) {
         const { result } = queryAnswerResponse;
-        if (localQuery.answers && localQuery.answers[activeArtifact.id]) {
+        if (localQuery.lastApprovedAnswer) {
           // already submitted an answer for this artifact before, so now compare answers
-          const { answer: savedAnswer } = localQuery.answers[activeArtifact.id];
+          const { answer: savedAnswer } = localQuery.lastApprovedAnswer;
           const { answer: newAnswer } = result;
 
           if (newAnswer === savedAnswer) {
@@ -68,11 +67,7 @@ export const QueryItem: FunctionComponent<{ query: Query }> = ({ query }) => {
           // create first answer for the query
           const createdAnswer = await updateOpenbookTesterQueryAnswer({ queryId: localQuery._id, artifactId: activeArtifact.id }, result);
           if (createdAnswer) {
-            if (!localQuery.answers) {
-              // initial answers is null, and to sync with backend we have to reinitialize with {} to avoid unncessary call to our server
-              localQuery.answers = {};
-            }
-            localQuery.answers[activeArtifact.id] = result;
+            localQuery.lastApprovedAnswer = result;
             localQuery.status = QUERY_STATUS_CONFIRMED;
             setIsLoading(false);
           }
@@ -86,17 +81,17 @@ export const QueryItem: FunctionComponent<{ query: Query }> = ({ query }) => {
   const loadAnswers = async () => {
     setIsLoading(true);
 
-    if (localQuery.answers && localQuery.answers[activeArtifact!.id]) {
+    if (localQuery.lastApprovedAnswer) {
       setIsLoading(false);
       return;
-    } else if (!localQuery.answers || !localQuery.answers[activeArtifact!.id]) {
+    } else {
       testArtifact();
     }
   };
 
   const approveAnswer = async (answer: QueryAnswer) => {
     await updateOpenbookTesterQueryAnswer({ artifactId: activeArtifact!.id, queryId: localQuery._id }, answer);
-    localQuery.answers[activeArtifact!.id] = answer;
+    localQuery.lastApprovedAnswer = answer;
     setLocalQuery({ ...localQuery, status: QUERY_STATUS_CONFIRMED, pendingAnswer: null });
     sendNotification({ msg: "Answer has been updated", variant: "success" });
   };
@@ -123,8 +118,8 @@ export const QueryItem: FunctionComponent<{ query: Query }> = ({ query }) => {
                 </Typography>
               )}
               <Typography variant="body2">
-                {(!localQuery.answers || !localQuery.answers[activeArtifact.id]) && "Answer is being added for first time ..."}
-                {localQuery.answers && localQuery.answers[activeArtifact.id] && `${localQuery.answers[activeArtifact.id].answer}`}
+                {!localQuery.lastApprovedAnswer && "Answer is being added for first time ..."}
+                {localQuery.lastApprovedAnswer && `${localQuery.lastApprovedAnswer.answer}`}
               </Typography>
               {localQuery.status === QUERY_STATUS_PENDING && (
                 <>

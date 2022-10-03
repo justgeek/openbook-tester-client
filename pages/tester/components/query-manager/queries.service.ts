@@ -1,6 +1,5 @@
 import { endPoints } from "config/endpoints";
 import { httpService } from "services/http";
-import { res } from "./mock";
 
 export interface GetAnswersParams {
   query: string;
@@ -55,7 +54,7 @@ export interface Query {
   // server side
   _id: string;
   body: string;
-  answers: Answers;
+  lastApprovedAnswer: QueryAnswer;
   // client side
   status: string;
   pendingAnswer: QueryAnswer | null;
@@ -70,18 +69,17 @@ export const getOpenbookQueryAnswer = async (artifactId: string, params?: GetAns
         }),
       );
     });
-    // const response: QueryAnswerResponse = await httpService.post(endPoints.openBookAnswers(artifactId), params);
-    // return response;
-    return res;
+    const response: QueryAnswerResponse = await httpService.post(endPoints.openBookAnswers(artifactId), params);
+    return response;
   } catch (e) {
     console.error(e);
     // toast("Could not fetch prodcuts. Please try again later", { type: "error" }); // for simplicity we keep message hardcoded
   }
 };
 
-export const updateOpenbookTesterQueryAnswer = async ({ artifactId, queryId }: CreateAnswerReuqest, answer: QueryAnswer) => {
+export const updateOpenbookTesterQueryAnswer = async ({ queryId }: CreateAnswerReuqest, answer: QueryAnswer) => {
   try {
-    const response: CreateAnswerResponse = await httpService.patch(endPoints.queries + `/${queryId}/answers/${artifactId}`, answer);
+    const response: CreateAnswerResponse = await httpService.patch(endPoints.queries + `/${queryId}/answer`, answer);
     return response;
   } catch (e) {
     console.error(e);
