@@ -3,6 +3,7 @@ const withPlugins = require("next-compose-plugins");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = withPlugins([], {
+  pageExtensions: ["page.tsx", "page.ts", "page.jsx", "page.js"],
   reactStrictMode: true,
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Find and remove NextJS css rules.

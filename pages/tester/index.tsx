@@ -7,7 +7,6 @@ import { ArtifactManager } from "./components/artifact-manager";
 import { ArtifactManagerProvider } from "./components/artifact-manager/store/artifact.context";
 
 export const Tester: NextPage = () => {
-  const queries = [];
   return (
     <Page id="tester-container">
       <ArtifactManagerProvider>

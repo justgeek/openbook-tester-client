@@ -1,5 +1,5 @@
 import { OPENBOOK_API_URL } from "config/endpoints";
-import { OPENBOOK_API_KEY_NAME } from "pages/settings";
+import { OPENBOOK_API_KEY_NAME } from "pages/settings/index.page";
 
 // Can be extended later to add further functionalities like token handling, intercepting requests, and responses .. etc
 export class HttpService {
