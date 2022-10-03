@@ -1,0 +1,48 @@
+@import "~/sass/components.scss";
+
+.query-manager-container {
+  .query {
+    @extend .card;
+    position: relative;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+
+    .MuiPaper-root {
+      width: 100%;
+    }
+
+    .query-status {
+      position: absolute;
+      top: 8px;
+      left: 16px;
+      z-index: 2;
+
+      &.loading {
+        left: 6px;
+      }
+
+      &.pending {
+        .MuiBadge-badge {
+          background-color: #ffc107;
+        }
+      }
+
+      &.confirmed {
+        .MuiBadge-badge {
+          background-color: limegreen;
+        }
+      }
+    }
+
+    .approve-answer {
+      display: flex;
+      justify-content: end;
+      align-items: end;
+      height: 60px;
+    }
+  }
+}

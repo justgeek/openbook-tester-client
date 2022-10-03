@@ -1,0 +1,29 @@
+@import "~/sass/components.scss";
+
+.query-manager-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .MuiAccordion-root {
+    &::before {
+      background-color: transparent;
+    }
+  }
+
+  .query-manager-header {
+    padding-top: 14px;
+    padding-right: 14px;
+    box-sizing: border-box;
+  }
+
+  .query-manager-body {
+    flex: 1;
+    display: flex;
+    overflow-y: scroll;
+
+    .queries-list {
+      width: 100%;
+    }
+  }
+}

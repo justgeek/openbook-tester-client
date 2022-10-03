@@ -1,0 +1,42 @@
+html,
+body,
+#__next {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+#__next {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  overflow: hidden;
+}
+
+.page {
+  padding: 20px;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-track {
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: orange;
+  border: 7px solid white;
+  border-radius: 20;
+}
